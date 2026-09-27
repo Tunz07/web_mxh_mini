@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Bạn bè - MiniSocial</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap");
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Be Vietnam Pro", Arial, sans-serif !important;
+        color: #1c1e21;
+        max-width: 700px;
+        margin: 0 auto !important;
+        padding: 28px 20px 60px;
+        line-height: 1.6;
+      }
+
+      header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #1877f2;
+        margin: 0 0 14px;
+      }
+
+      header a {
+        color: #1877f2;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 4px 6px;
+        border-radius: 6px;
+        transition: background 0.15s ease;
+      }
+      header a:hover {
+        background: #e7f3ff;
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid #d3d9de;
+        margin: 18px 0;
+      }
+
+      h2 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #050505;
+        margin: 20px 0 14px;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        background: #ffffff;
+        border: 1px solid #d3d9de;
+        border-radius: 10px;
+        padding: 12px 16px;
+        margin-bottom: 10px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+      }
+
+      li > div {
+        flex-basis: 100%;
+      }
+
+      #__friendSearch {
+        font-family: inherit;
+        font-size: 14px;
+      }
+      #__friendSearch:focus {
+        outline: none;
+        border-color: #1877f2 !important;
+        box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.15);
+      }
+
+      button {
+        font-family: inherit;
+        border: 1px solid #ccd0d5;
+        background: #f0f2f5;
+        color: #050505;
+        border-radius: 6px;
+        font-weight: 500;
+        transition:
+          background 0.15s ease,
+          transform 0.1s ease;
+      }
+      button:hover {
+        background: #e4e6eb;
+      }
+      button:active {
+        transform: scale(0.96);
+      }
+
+      .__msgBtn {
+        color: #1877f2;
+      }
+      .__unfriendBtn {
+        color: #d93025;
+      }
+
+      input[type="text"] {
+        font-family: inherit;
+        border: 1px solid #ccd0d5;
+        border-radius: 6px;
+      }
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #1877f2;
+        box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.15);
+      }
+
+      a {
+        color: #1877f2;
+        font-weight: 500;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body bgcolor="#eaf3ff">
+    <header>
+      <h1>👥 Bạn bè</h1>
+
+      <a href="index.html">🏠 Trang chủ</a> |
+      <a href="banbe.html">👥 Bạn bè</a> |
+      <a href="tinnhan.html">💬 Tin nhắn</a> |
+      <a href="thongbao.html">🔔 Thông báo</a> |
+      <a href="hoso.html">👤 Hồ sơ</a>
+    </header>
+
+    <hr />
+
+    <h2>Danh sách bạn bè</h2>
+
+    <ul>
+      <li>👤 Nguyễn Minh - 🟢 Đang hoạt động</li>
+      <li>👤 Trần Lan - 🟢 Đang hoạt động</li>
+      <li>👤 Lê Nam - ⚪ Ngoại tuyến</li>
+      <li>👤 Phạm An - 🟢 Đang hoạt động</li>
+    </ul>
+
+    <br />
+
+    <a href="index.html">⬅ Quay lại trang chủ</a>
+
+    <script>
+      (function () {
+        "use strict";
+
+        const list = document.querySelector("ul");
+        if (!list) return;
+
+        const REPLIES = [
+          "Ừ, để mình xem nhé!",
+          "Ok bạn ơiiii 👍",
+          "Cảm ơn bạn đã nhắn tin!",
+          "Haha đúng rồi đó!",
+          "Nay mày có đi đâu không",
+          "Mai gặp nhau nói chuyện tiếp nha 😄",
+          "Nay tôi có hc bn ah",
+          "h cô mà cho 10đ thì tốt 🤣",
+          "❤️❤️❤️❤️❤️❤️",
+        ];
+
+        const searchWrap = document.createElement("p");
+        searchWrap.innerHTML =
+          '<input type="text" id="__friendSearch" placeholder="🔍 Tìm bạn bè theo tên..." ' +
+          'style="padding:6px;width:250px;border:1px solid #999;border-radius:4px;">';
+        list.parentElement.insertBefore(searchWrap, list);
+
+        document
+          .getElementById("__friendSearch")
+          .addEventListener("input", function () {
+            const kw = this.value.trim().toLowerCase();
+            list.querySelectorAll("li").forEach(function (li) {
+              const name = (li.dataset.name || li.textContent).toLowerCase();
+              li.style.display = !kw || name.indexOf(kw) !== -1 ? "" : "none";
+            });
+          });
+
+        Array.from(list.querySelectorAll("li")).forEach(function (li) {
+          const originalText = li.textContent.trim();
+          const parts = originalText.split(" - ");
+          const namePart = parts[0].replace("👤", "").trim();
+          li.dataset.name = namePart;
+
+          li.style.marginBottom = "6px";
+
+          const actions = document.createElement("span");
+          actions.style.marginLeft = "10px";
+          actions.innerHTML =
+            '<button type="button" class="__msgBtn" style="cursor:pointer;padding:2px 8px;">💬 Nhắn tin</button> ' +
+            '<button type="button" class="__unfriendBtn" style="cursor:pointer;padding:2px 8px;">❌ Hủy kết bạn</button>';
+          li.appendChild(actions);
+
+          const chatBox = document.createElement("div");
+          chatBox.style.display = "none";
+          chatBox.style.margin = "6px 0 10px 25px";
+          chatBox.style.padding = "8px";
+          chatBox.style.border = "1px solid #ccc";
+          chatBox.style.background = "#ffffff";
+          chatBox.style.maxWidth = "320px";
+          chatBox.innerHTML =
+            '<div class="__msgLog" style="max-height:120px;overflow-y:auto;font-size:13px;margin-bottom:6px;"></div>' +
+            '<input type="text" class="__msgInput" placeholder="Nhắn cho ' +
+            namePart +
+            '..." ' +
+            'style="width:70%;padding:4px;">' +
+            '<button type="button" class="__sendBtn" style="padding:4px 8px;cursor:pointer;">Gửi</button>';
+          li.appendChild(chatBox);
+
+          actions
+            .querySelector(".__msgBtn")
+            .addEventListener("click", function () {
+              chatBox.style.display =
+                chatBox.style.display === "none" ? "block" : "none";
+              if (chatBox.style.display === "block") {
+                chatBox.querySelector(".__msgInput").focus();
+              }
+            });
+
+          actions
+            .querySelector(".__unfriendBtn")
+            .addEventListener("click", function () {
+              if (
+                confirm(
+                  "Bạn có chắc muốn hủy kết bạn với " + namePart + " không?",
+                )
+              ) {
+                li.style.opacity = "0.4";
+                li.style.textDecoration = "line-through";
+                actions
+                  .querySelectorAll("button")
+                  .forEach((b) => (b.disabled = true));
+              }
+            });
+
+          function sendMsg() {
+            const input = chatBox.querySelector(".__msgInput");
+            const val = input.value.trim();
+            if (!val) return;
+            const log = chatBox.querySelector(".__msgLog");
+
+            const mine = document.createElement("div");
+            mine.style.textAlign = "right";
+            mine.style.margin = "2px 0";
+            mine.innerHTML = "<b>Bạn:</b> " + escapeHTML(val);
+            log.appendChild(mine);
+            input.value = "";
+            log.scrollTop = log.scrollHeight;
+
+            setTimeout(function () {
+              const reply = REPLIES[Math.floor(Math.random() * REPLIES.length)];
+              const theirs = document.createElement("div");
+              theirs.style.margin = "2px 0";
+              theirs.innerHTML =
+                "<b>" + escapeHTML(namePart) + ":</b> " + escapeHTML(reply);
+              log.appendChild(theirs);
+              log.scrollTop = log.scrollHeight;
+            }, 1000);
+          }
+
+          chatBox
+            .querySelector(".__sendBtn")
+            .addEventListener("click", sendMsg);
+          chatBox
+            .querySelector(".__msgInput")
+            .addEventListener("keydown", function (e) {
+              if (e.key === "Enter") sendMsg();
+            });
+        });
+
+        function escapeHTML(str) {
+          const div = document.createElement("div");
+          div.textContent = str;
+          return div.innerHTML;
+        }
+      })();
+    </script>
+  </body>
+</html>

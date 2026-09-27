@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hồ sơ - MiniSocial</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap");
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Be Vietnam Pro", Arial, sans-serif !important;
+        color: #1c1e21;
+        max-width: 980px;
+        margin: 0 auto !important;
+        padding: 28px 20px 60px;
+        line-height: 1.6;
+        background: linear-gradient(180deg, #edf5ff 0%, #e4effd 100%);
+      }
+
+      .profile-shell {
+        background: rgba(255, 255, 255, 0.45);
+        border: 1px solid rgba(24, 119, 242, 0.12);
+        border-radius: 24px;
+        box-shadow: 0 12px 30px rgba(24, 119, 242, 0.08);
+        padding: 26px 22px 30px;
+      }
+
+      h1 {
+        font-size: 30px;
+        font-weight: 800;
+        color: #1877f2;
+        margin: 0 0 18px;
+        letter-spacing: -0.02em;
+        text-align: center;
+      }
+
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid #dfe9f7;
+        border-radius: 16px;
+        padding: 10px 16px;
+        font-size: 14px;
+        box-shadow: 0 6px 18px rgba(24, 119, 242, 0.08);
+        margin: 0 auto 22px;
+        max-width: 760px;
+      }
+
+      nav a {
+        color: #1e3a5f;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 8px 12px;
+        border-radius: 10px;
+        transition: all 0.18s ease;
+        background: #f4f9ff;
+        border: 1px solid transparent;
+      }
+      nav a:hover {
+        background: #e7f3ff;
+        border-color: #cfe4ff;
+        color: #1877f2;
+      }
+
+      nav a.active {
+        background: #1877f2;
+        color: #fff;
+        box-shadow: 0 8px 16px rgba(24, 119, 242, 0.18);
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid #d3d9de;
+        margin: 18px 0;
+      }
+
+      h2 {
+        font-size: 34px;
+        font-weight: 800;
+        color: #1f2937;
+        margin: 6px 0 10px;
+        letter-spacing: -0.03em;
+      }
+
+      h2::before {
+        content: "👤";
+        display: inline-block;
+        margin-right: 10px;
+        transform: translateY(-2px);
+      }
+
+      h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1f2937;
+        margin: 26px 0 10px;
+      }
+
+      p {
+        margin: 6px 0;
+      }
+
+      .profile-handle {
+        color: #3a5a8a;
+        font-weight: 600;
+        font-size: 15px;
+      }
+
+      .profile-job {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #eaf3ff;
+        color: #0a4d99;
+        border: 1px solid #cfe3ff;
+        border-radius: 999px;
+        padding: 6px 12px;
+        font-weight: 600;
+        margin-top: 6px;
+      }
+
+      .profile-stats {
+        margin-top: 8px;
+        color: #475569;
+        font-size: 15px;
+        font-weight: 500;
+      }
+
+      .profile-stats span {
+        color: #1877f2;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .profile-intro {
+        display: inline-block;
+        background: #ffffff;
+        border: 1px solid #dfe9f7;
+        border-radius: 12px;
+        padding: 10px 14px;
+        box-shadow: 0 3px 12px rgba(24, 119, 242, 0.05);
+      }
+
+      p:has(> button) button,
+      button {
+        font-family: inherit;
+        border: 1px solid #ccd0d5;
+        background: #f0f2f5;
+        color: #050505;
+        border-radius: 6px;
+        padding: 3px 10px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+      button:hover {
+        background: #e4e6eb;
+      }
+
+      textarea {
+        font-family: inherit;
+        border: 1px solid #ccd0d5;
+        border-radius: 6px;
+        padding: 8px;
+      }
+      textarea:focus {
+        outline: none;
+        border-color: #1877f2;
+        box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.15);
+      }
+
+      #__followPanel {
+        border-radius: 10px !important;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+
+  <body bgcolor="#eaf3ff">
+    <main class="profile-shell">
+      <h1>👤 Hồ sơ cá nhân</h1>
+
+      <nav>
+        <a href="index.html">🏠 Trang chủ</a>
+        <a href="tinnhan.html">💬 Tin nhắn</a>
+        <a href="thongbao.html">🔔 Thông báo</a>
+        <a href="hoso.html" class="active">👤 Hồ sơ</a>
+      </nav>
+
+      <hr />
+
+      <h2>Nguyễn Văn A</h2>
+      <p class="profile-handle">@nguyenvana</p>
+      <p class="profile-job">💻 Web Developer</p>
+      <p class="profile-stats">
+        120 bài viết · <span>350 người theo dõi</span> ·
+        <span>180 đang theo dõi</span>
+      </p>
+
+      <h3>Giới thiệu</h3>
+      <p class="profile-intro">Mình đang học HTML và xây dựng MiniSocial.</p>
+    </main>
+
+    <script>
+      (function () {
+        "use strict";
+
+        function escapeHTML(str) {
+          const div = document.createElement("div");
+          div.textContent = str;
+          return div.innerHTML;
+        }
+
+        function makeEditable(pElement, placeholder) {
+          if (!pElement) return;
+
+          const editBtn = document.createElement("button");
+          editBtn.type = "button";
+          editBtn.textContent = "✏️ Chỉnh sửa";
+          editBtn.style.cssText =
+            "margin-left:10px;font-size:12px;padding:2px 8px;cursor:pointer;";
+          pElement.appendChild(document.createTextNode(" "));
+          pElement.appendChild(editBtn);
+
+          editBtn.addEventListener("click", function () {
+            const currentText = pElement.firstChild.textContent.trim();
+
+            const editWrap = document.createElement("div");
+            editWrap.innerHTML =
+              '<textarea rows="2" style="width:80%;padding:6px;">' +
+              currentText.replace(/</g, "&lt;") +
+              "</textarea><br>" +
+              '<button type="button" class="__saveBtn" style="margin-top:4px;padding:4px 10px;cursor:pointer;">💾 Lưu</button> ' +
+              '<button type="button" class="__cancelBtn" style="margin-top:4px;padding:4px 10px;cursor:pointer;">Hủy</button>';
+
+            pElement.style.display = "none";
+            pElement.parentElement.insertBefore(editWrap, pElement);
+
+            editWrap
+              .querySelector(".__cancelBtn")
+              .addEventListener("click", function () {
+                editWrap.remove();
+                pElement.style.display = "";
+              });
+
+            editWrap
+              .querySelector(".__saveBtn")
+              .addEventListener("click", function () {
+                const newVal = editWrap.querySelector("textarea").value.trim();
+                if (newVal) {
+                  pElement.firstChild.textContent = newVal + " ";
+                }
+                editWrap.remove();
+                pElement.style.display = "";
+              });
+          });
+        }
+
+        const allPs = document.querySelectorAll("p");
+        let jobP = null;
+        allPs.forEach(function (p) {
+          if (
+            /Web Developer|Developer|developer/.test(p.textContent) &&
+            !jobP
+          ) {
+            jobP = p;
+          }
+        });
+        makeEditable(jobP, "Nghề nghiệp");
+
+        const introHeading = Array.from(document.querySelectorAll("h3")).find(
+          (h) => h.textContent.indexOf("Giới thiệu") !== -1,
+        );
+        if (introHeading) {
+          const introP = introHeading.nextElementSibling;
+          makeEditable(introP, "Giới thiệu về bạn");
+        }
+
+        const FAKE_FOLLOWERS = [
+          "Trần Thị B",
+          "Lê Hoàng C",
+          "Phạm Minh D",
+          "Nguyễn Minh",
+          "Trần Lan",
+          "Vũ Thu Hà",
+          "Đỗ Quang Huy",
+        ];
+
+        const statsP = Array.from(document.querySelectorAll("p")).find(
+          (p) => p.textContent.indexOf("người theo dõi") !== -1,
+        );
+
+        if (statsP) {
+          const parts = statsP.textContent.split("·").map((s) => s.trim());
+          statsP.innerHTML = "";
+
+          parts.forEach(function (part, idx) {
+            const span = document.createElement("span");
+            span.textContent = part;
+
+            if (idx === 1 || idx === 2) {
+              span.style.cursor = "pointer";
+              span.style.color = "#1877f2";
+              span.title = "Bấm để xem danh sách";
+              span.addEventListener("click", function () {
+                toggleFollowList(
+                  span,
+                  idx === 1 ? "Người theo dõi" : "Đang theo dõi",
+                );
+              });
+            }
+
+            statsP.appendChild(span);
+            if (idx < parts.length - 1) {
+              statsP.appendChild(document.createTextNode(" · "));
+            }
+          });
+        }
+
+        function toggleFollowList(anchorSpan, title) {
+          let panel = document.getElementById("__followPanel");
+          if (panel) {
+            const wasFor = panel.dataset.for;
+            panel.remove();
+            if (wasFor === title) return;
+          }
+
+          panel = document.createElement("div");
+          panel.id = "__followPanel";
+          panel.dataset.for = title;
+          panel.style.cssText =
+            "border:1px solid #ccc;background:#fff;padding:10px;margin-top:8px;max-width:320px;";
+
+          const shuffled = FAKE_FOLLOWERS.slice()
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 5);
+          panel.innerHTML =
+            "<b>" +
+            title +
+            "</b><hr>" +
+            shuffled
+              .map(
+                (n) =>
+                  "<div style='padding:3px 0;'>👤 " + escapeHTML(n) + "</div>",
+              )
+              .join("");
+
+          anchorSpan.closest("p").insertAdjacentElement("afterend", panel);
+        }
+      })();
+    </script>
+  </body>
+</html>

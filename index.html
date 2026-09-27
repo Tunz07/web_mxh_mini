@@ -1,0 +1,1064 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>MiniSocial - Mạng Xã Hội</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap");
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Be Vietnam Pro", Arial, sans-serif !important;
+        background: #f0f2f5 !important;
+      }
+
+      .mini-shell {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .sidebar-card,
+      .content-card,
+      .post-card,
+      .suggest-card,
+      .contact-card,
+      .footer-bar {
+        background: #ffffff !important;
+        border: 1px solid #d3d9de;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .panel-title {
+        font-size: 15px;
+        color: #1877f2;
+        font-weight: 700;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .quick-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        line-height: 2;
+      }
+
+      .quick-links li {
+        padding: 4px 6px;
+        border-radius: 8px;
+        transition: background 0.15s ease;
+      }
+
+      .quick-links li:hover {
+        background: #f2f7ff;
+      }
+
+      .quick-links a {
+        color: #1c1e21;
+        text-decoration: none;
+      }
+
+      .user-avatar {
+        width: 90px;
+        height: 90px;
+        background: #d8dadf;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+        font-size: 30px;
+      }
+
+      .post-card td,
+      .content-card td,
+      .sidebar-card td,
+      .suggest-card td,
+      .contact-card td {
+        vertical-align: top;
+      }
+
+      .status-meta {
+        color: #65676b;
+        font-size: 11px;
+      }
+
+      .post-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .post-actions button,
+      .comment-box input[type="submit"] {
+        border-radius: 6px;
+      }
+
+      .comment-box {
+        margin-top: 10px;
+        padding-top: 8px;
+        border-top: 1px solid #f0f2f5;
+      }
+
+      .comment-box input[type="text"] {
+        width: 78%;
+        padding: 7px 10px;
+        border: 1px solid #ccd0d5;
+        border-radius: 6px;
+        background: #f7f8fa;
+      }
+
+      .friend-pill {
+        display: inline-block;
+        background: #e7f3ff;
+        color: #1877f2;
+        border-radius: 999px;
+        padding: 4px 8px;
+        font-size: 11px;
+        font-weight: 600;
+        margin-top: 6px;
+      }
+
+      .friend-row {
+        padding: 6px 0;
+      }
+
+      .footer-bar {
+        border-top: 1px solid #d3d9de;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      body > table:first-of-type {
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      body > table:first-of-type input[type="text"]:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+      }
+      body > table:first-of-type input[type="submit"] {
+        font-family: inherit;
+        font-weight: 600;
+        transition: background-color 0.15s ease;
+      }
+      body > table:first-of-type input[type="submit"]:hover {
+        background-color: #0a4d99 !important;
+      }
+      body > table:first-of-type a:hover {
+        text-decoration: underline !important;
+      }
+
+      table[bgcolor="#ffffff"] {
+        transition: box-shadow 0.2s ease;
+      }
+      table[bgcolor="#ffffff"]:hover {
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      }
+
+      textarea:focus {
+        outline: none;
+        border-color: #1877f2 !important;
+        box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.15);
+      }
+
+      select {
+        font-family: inherit;
+        cursor: pointer;
+      }
+
+      table td > input[type="text"]:focus,
+      input[type="text"]:not([name="q"]):focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.12);
+      }
+
+      button[type="button"] {
+        font-family: inherit;
+        background: #f0f2f5;
+        border: 1px solid #ccd0d5 !important;
+        border-radius: 6px !important;
+        font-weight: 500;
+        color: #050505;
+        transition:
+          background-color 0.15s ease,
+          transform 0.1s ease;
+      }
+      button[type="button"]:hover {
+        background: #e4e6eb;
+      }
+      button[type="button"]:active {
+        transform: scale(0.96);
+      }
+
+      input[type="button"] {
+        font-family: inherit;
+        background: #e7f3ff;
+        color: #1877f2;
+        border: 1px solid #cfe4fd !important;
+        border-radius: 4px !important;
+        font-weight: 600;
+        transition: background-color 0.15s ease;
+      }
+      input[type="button"]:hover {
+        background: #d9ecff;
+      }
+      input[type="button"]:disabled {
+        background: #f0f2f5;
+        color: #65676b;
+        border-color: #ccd0d5 !important;
+      }
+
+      input[type="submit"] {
+        font-family: inherit;
+        transition: filter 0.15s ease;
+      }
+      input[type="submit"]:hover {
+        filter: brightness(0.95);
+      }
+
+      input[type="reset"] {
+        font-family: inherit;
+        transition: filter 0.15s ease;
+      }
+      input[type="reset"]:hover {
+        filter: brightness(0.95);
+      }
+
+      a {
+        transition: opacity 0.15s ease;
+      }
+
+      img {
+        max-width: 100%;
+      }
+    </style>
+  </head>
+  <body
+    bgcolor="#e9ebee"
+    text="#1c1e21"
+    link="#1877f2"
+    vlink="#1877f2"
+    alink="#0e5aae"
+    style="margin: 0; font-family: Arial, sans-serif"
+  >
+    <table
+      width="100%"
+      bgcolor="#1877f2"
+      cellpadding="10"
+      cellspacing="0"
+      border="0"
+    >
+      <tr>
+        <td width="20%" align="center">
+          <a href="index.html" style="text-decoration: none">
+            <font color="#ffffff" size="5"><b>🌐 MiniSocial</b></font>
+          </a>
+        </td>
+        <td width="40%" align="left">
+          <form action="#" method="get" style="margin: 0">
+            <input
+              type="text"
+              name="q"
+              placeholder="🔍 Tìm kiếm bạn bè, bài viết..."
+              size="38"
+              style="
+                padding: 5px;
+                border-radius: 4px;
+                border: 1px solid #ccd0d5;
+              "
+            />
+            <input
+              type="submit"
+              value="Tìm kiếm"
+              style="
+                padding: 5px 10px;
+                background-color: #0e5aae;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+              "
+            />
+          </form>
+        </td>
+        <td width="40%" align="right">
+          <font color="#ffffff" size="3">
+            <a href="index.html" style="color: white; text-decoration: none"
+              ><b>🏠 Trang chủ</b></a
+            >
+            &nbsp;|&nbsp;
+            <a href="banbe.html" style="color: white; text-decoration: none"
+              >👥 Bạn bè</a
+            >
+            &nbsp;|&nbsp;
+            <a href="tinnhan.html" style="color: white; text-decoration: none"
+              >💬 Tin nhắn</a
+            >
+            &nbsp;|&nbsp;
+            <a href="thongbao.html" style="color: white; text-decoration: none"
+              >🔔 Thông báo <b>(3)</b></a
+            >
+            &nbsp;|&nbsp;
+            <a href="hoso.html" style="color: white; text-decoration: none"
+              >👤 Hồ sơ</a
+            >
+          </font>
+        </td>
+      </tr>
+    </table>
+
+    <br />
+
+    <table
+      class="mini-shell"
+      width="1100"
+      align="center"
+      cellpadding="0"
+      cellspacing="15"
+      border="0"
+    >
+      <tr valign="top">
+        <td width="260">
+          <table
+            width="100%"
+            bgcolor="#ffffff"
+            cellpadding="15"
+            cellspacing="0"
+            border="0"
+            style="border: 1px solid #d3d9de; border-radius: 8px"
+          >
+            <tr>
+              <td align="center">
+                <div class="user-avatar">👤</div>
+                <br />
+                <font size="4"><b>Nguyễn Văn A</b></font
+                ><br />
+                <font size="2" color="#65676b">@nguyenvana</font><br />
+                <font size="2" color="#1877f2"><b>💻 Web Developer</b></font>
+              </td>
+            </tr>
+            <tr>
+              <td><hr color="#e4e6eb" size="1" /></td>
+            </tr>
+            <tr>
+              <td>
+                <font size="3">
+                  <b>Lối tắt nhanh:</b>
+                  <ul class="quick-links">
+                    <li>
+                      <a href="index.html" style="text-decoration: none"
+                        >📰 <b>Bảng tin chính</b></a
+                      >
+                    </li>
+                    <li>
+                      <a href="banbe.html" style="text-decoration: none"
+                        >👥 Danh sách bạn bè</a
+                      >
+                    </li>
+                    <li>
+                      <a href="anh.html" style="text-decoration: none"
+                        >📷 Thư viện ảnh</a
+                      >
+                    </li>
+                    <li>
+                      <a href="video.html" style="text-decoration: none"
+                        >🎬 Video đã xem</a
+                      >
+                    </li>
+                    <li>
+                      <a href="luu.html" style="text-decoration: none"
+                        >🔖 Bài viết đã lưu</a
+                      >
+                    </li>
+                  </ul>
+                </font>
+              </td>
+            </tr>
+          </table>
+        </td>
+
+        <td width="540">
+          <table
+            width="100%"
+            bgcolor="#ffffff"
+            cellpadding="15"
+            cellspacing="0"
+            border="0"
+            style="border: 1px solid #d3d9de; border-radius: 8px"
+          >
+            <tr>
+              <td>
+                <span class="panel-title">✏️ Tạo bài viết mới</span>
+                <hr color="#f0f2f5" size="1" />
+
+                <form action="#" method="post" enctype="multipart/form-data">
+                  <table
+                    width="100%"
+                    cellpadding="6"
+                    cellspacing="0"
+                    border="0"
+                  >
+                    <tr>
+                      <td colspan="2">
+                        <textarea
+                          name="content"
+                          rows="4"
+                          style="
+                            width: 96%;
+                            padding: 8px;
+                            font-family: Arial;
+                            border: 1px solid #ccd0d5;
+                            border-radius: 6px;
+                          "
+                          placeholder="Nguyễn Văn A ơi, bạn đang nghĩ gì thế?"
+                        ></textarea>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td width="35%">
+                        <font size="2"><b>🔒 Quyền riêng tư:</b></font>
+                      </td>
+                      <td>
+                        <select
+                          name="privacy"
+                          style="
+                            padding: 4px;
+                            border-radius: 4px;
+                            border: 1px solid #ccd0d5;
+                          "
+                        >
+                          <option value="public">🌎 Công khai</option>
+                          <option value="friends">👥 Bạn bè</option>
+                          <option value="private">🔒 Chỉ mình tôi</option>
+                        </select>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>
+                        <font size="2"><b>📷 Thêm hình ảnh:</b></font>
+                      </td>
+                      <td>
+                        <input type="file" name="attachment" accept="image/*" />
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="2" align="right" style="padding-top: 10px">
+                        <input
+                          type="reset"
+                          value="Làm lại"
+                          style="
+                            padding: 6px 12px;
+                            background-color: #e4e6eb;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                          "
+                        />
+                        <input
+                          type="submit"
+                          value="  Đăng bài  "
+                          style="
+                            padding: 6px 16px;
+                            background-color: #1877f2;
+                            color: white;
+                            font-weight: bold;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                          "
+                        />
+                      </td>
+                    </tr>
+                  </table>
+                </form>
+              </td>
+            </tr>
+          </table>
+
+          <br />
+
+          <table
+            width="100%"
+            bgcolor="#ffffff"
+            cellpadding="15"
+            cellspacing="0"
+            border="0"
+            style="border: 1px solid #d3d9de; border-radius: 8px"
+          >
+            <tr>
+              <td>
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td width="45" valign="top">
+                      <table
+                        bgcolor="#1877f2"
+                        width="38"
+                        height="38"
+                        style="border-radius: 50%"
+                      >
+                        <tr>
+                          <td align="center">
+                            <font color="#ffffff"><b>A</b></font>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td>
+                      <font size="3"><b>Nguyễn Văn A</b></font
+                      ><br />
+                      <font size="1" color="#65676b"
+                        >Vừa xong · 🌎 Công khai</font
+                      >
+                    </td>
+                  </tr>
+                </table>
+
+                <p>
+                  <font size="3"
+                    >Hôm nay mình vừa hoàn thành việc tái cấu trúc giao diện
+                    HTML thuần cho MiniSocial! Giao diện table rõ ràng và sạch
+                    đẹp hơn rất nhiều 🎉💻</font
+                  >
+                </p>
+
+                <hr color="#f0f2f5" size="1" />
+
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td>
+                      <font size="2" color="#65676b"
+                        >❤️ 32 lượt thích · 💬 5 bình luận</font
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><br /></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="post-actions">
+                        <button
+                          type="button"
+                          style="padding: 4px 10px; cursor: pointer"
+                        >
+                          👍 Thích
+                        </button>
+                        <button
+                          type="button"
+                          style="padding: 4px 10px; cursor: pointer"
+                        >
+                          💬 Bình luận
+                        </button>
+                        <button
+                          type="button"
+                          style="padding: 4px 10px; cursor: pointer"
+                        >
+                          ↗ Chia sẻ
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+
+                <br />
+
+                <form
+                  action="#"
+                  method="post"
+                  style="margin: 0"
+                  class="comment-box"
+                >
+                  <table
+                    width="100%"
+                    cellpadding="0"
+                    cellspacing="0"
+                    border="0"
+                  >
+                    <tr>
+                      <td>
+                        <input
+                          type="text"
+                          name="comment"
+                          placeholder="Viết bình luận công khai..."
+                          style="
+                            width: 78%;
+                            padding: 6px;
+                            border: 1px solid #ccd0d5;
+                            border-radius: 4px;
+                          "
+                        />
+                        <input
+                          type="submit"
+                          value="Gửi"
+                          style="
+                            padding: 6px 12px;
+                            background-color: #e4e6eb;
+                            border: 1px solid #ccd0d5;
+                            border-radius: 4px;
+                            cursor: pointer;
+                          "
+                        />
+                      </td>
+                    </tr>
+                  </table>
+                </form>
+              </td>
+            </tr>
+          </table>
+
+          <br />
+
+          <table
+            width="100%"
+            bgcolor="#ffffff"
+            cellpadding="15"
+            cellspacing="0"
+            border="0"
+            style="border: 1px solid #d3d9de; border-radius: 8px"
+          >
+            <tr>
+              <td>
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                  <tr>
+                    <td width="45" valign="top">
+                      <table
+                        bgcolor="#42b72a"
+                        width="38"
+                        height="38"
+                        style="border-radius: 50%"
+                      >
+                        <tr>
+                          <td align="center">
+                            <font color="#ffffff"><b>B</b></font>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td>
+                      <font size="3"><b>Trần Thị B</b></font
+                      ><br />
+                      <font size="1" color="#65676b"
+                        >2 giờ trước · 👥 Bạn bè</font
+                      >
+                    </td>
+                  </tr>
+                </table>
+
+                <p>
+                  <font size="3"
+                    >Thời tiết hôm nay thật đẹp để ngồi học lập trình Web cơ
+                    bản!</font
+                  >
+                </p>
+
+                <hr color="#f0f2f5" size="1" />
+                <font size="2" color="#65676b"
+                  >👍 15 Thích · 💬 2 Bình luận</font
+                >
+                <br /><br />
+                <button
+                  type="button"
+                  style="padding: 4px 10px; cursor: pointer"
+                >
+                  👍 Thích
+                </button>
+                <button
+                  type="button"
+                  style="padding: 4px 10px; cursor: pointer"
+                >
+                  💬 Bình luận
+                </button>
+              </td>
+            </tr>
+          </table>
+        </td>
+
+        <td width="260">
+          <table
+            width="100%"
+            bgcolor="#ffffff"
+            cellpadding="12"
+            cellspacing="0"
+            border="0"
+            style="border: 1px solid #d3d9de; border-radius: 8px"
+          >
+            <tr>
+              <td>
+                <span class="panel-title">👥 Gợi ý kết bạn</span>
+                <hr color="#e4e6eb" size="1" />
+
+                <table width="100%" cellpadding="4" cellspacing="0" border="0">
+                  <tr class="friend-row">
+                    <td width="35">👤</td>
+                    <td>
+                      <font size="2"><b>Lê Hoàng C</b></font
+                      ><br />
+                      <input
+                        type="button"
+                        value="+ Kết bạn"
+                        style="
+                          font-size: 11px;
+                          padding: 2px 6px;
+                          cursor: pointer;
+                        "
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>👤</td>
+                    <td>
+                      <font size="2"><b>Phạm Minh D</b></font
+                      ><br />
+                      <input
+                        type="button"
+                        value="+ Kết bạn"
+                        style="
+                          font-size: 11px;
+                          padding: 2px 6px;
+                          cursor: pointer;
+                        "
+                      />
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+
+          <br />
+
+          <table
+            width="100%"
+            bgcolor="#ffffff"
+            cellpadding="12"
+            cellspacing="0"
+            border="0"
+            style="border: 1px solid #d3d9de; border-radius: 8px"
+          >
+            <tr>
+              <td>
+                <span class="panel-title">🟢 Người liên hệ (Online)</span>
+                <hr color="#e4e6eb" size="1" />
+                <font size="2">
+                  <p>
+                    🟢 <b>Nguyễn Minh</b> -
+                    <a
+                      href="tinnhan (4).html"
+                      style="text-decoration: none; color: #1877f2"
+                      >Nhắn tin</a
+                    >
+                  </p>
+                  <p>
+                    🟢 <b>Trần Lan</b> -
+                    <a
+                      href="tinnhan (4).html"
+                      style="text-decoration: none; color: #1877f2"
+                      >Nhắn tin</a
+                    >
+                  </p>
+                  <p>
+                    🟢 <b>Phạm An</b> -
+                    <a
+                      href="tinnhan (4).html"
+                      style="text-decoration: none; color: #1877f2"
+                      >Nhắn tin</a
+                    >
+                  </p>
+                  <p>⚪ <b>Lê Nam</b> <i>(Ngoại tuyến)</i></p>
+                </font>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+
+    <br /><br />
+    <table
+      class="footer-bar"
+      width="100%"
+      bgcolor="#ffffff"
+      cellpadding="15"
+      cellspacing="0"
+      border="0"
+      style="border-top: 1px solid #d3d9de"
+    >
+      <tr>
+        <td align="center">
+          <font size="2" color="#65676b">
+            <b>MiniSocial</b> &copy; 2026 - Dự án thực hành thiết kế giao diện
+            bằng HTML Table thuần.<br />
+            <a href="index.html">Trang chủ</a> · <a href="hoso.html">Hồ sơ</a> ·
+            <a href="thongbao.html">Thông báo</a> ·
+            <a href="banbe.html">Bạn bè</a>
+          </font>
+        </td>
+      </tr>
+    </table>
+
+    <script>
+      (function () {
+        "use strict";
+        function bumpNumber(text, occurrenceIndex, delta) {
+          let count = -1;
+          return text.replace(/\d+/g, function (match) {
+            count++;
+            if (count === occurrenceIndex) {
+              return String(Math.max(0, parseInt(match, 10) + delta));
+            }
+            return match;
+          });
+        }
+
+        function findStatsNode(postBox) {
+          const candidates = postBox.querySelectorAll("font, td");
+          for (const el of candidates) {
+            if (
+              /\d+\s*(lượt thích|Thích)/i.test(el.textContent) &&
+              el.children.length === 0
+            ) {
+              return el;
+            }
+          }
+          return null;
+        }
+
+        document.addEventListener("click", function (e) {
+          const btn = e.target.closest("button");
+          if (!btn) return;
+
+          const txt = btn.textContent.trim();
+          if (txt === "👍 Thích" || txt === "👍 Đã thích") {
+            const postBox = btn.closest('table[bgcolor="#ffffff"]');
+            if (!postBox) return;
+            const stats = findStatsNode(postBox);
+            const liked = txt === "👍 Đã thích";
+
+            if (!liked) {
+              btn.textContent = "👍 Đã thích";
+              btn.style.color = "#1877f2";
+              btn.style.fontWeight = "bold";
+              if (stats)
+                stats.textContent = bumpNumber(stats.textContent, 0, +1);
+            } else {
+              btn.textContent = "👍 Thích";
+              btn.style.color = "";
+              btn.style.fontWeight = "";
+              if (stats)
+                stats.textContent = bumpNumber(stats.textContent, 0, -1);
+            }
+          }
+        });
+
+        document.addEventListener("click", function (e) {
+          const btn = e.target.closest("button");
+          if (!btn) return;
+          if (btn.textContent.trim() === "↗ Chia sẻ") {
+            const original = btn.textContent;
+            btn.textContent = "✔ Đã chia sẻ";
+            btn.disabled = true;
+            setTimeout(function () {
+              btn.textContent = original;
+              btn.disabled = false;
+            }, 1500);
+          }
+        });
+
+        document.addEventListener("click", function (e) {
+          const btn = e.target.closest("button");
+          if (!btn) return;
+          if (btn.textContent.trim() === "💬 Bình luận") {
+            const postBox = btn.closest('table[bgcolor="#ffffff"]');
+            if (!postBox) return;
+            const input = ensureCommentForm(postBox);
+            input.focus();
+          }
+        });
+
+        function ensureCommentForm(postBox) {
+          let input = postBox.querySelector('input[name="comment"]');
+          if (input) return input;
+
+          const cell = postBox.querySelector("td");
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML =
+            "<br>" +
+            '<form action="#" method="post" style="margin:0;">' +
+            '<input type="text" name="comment" placeholder="Viết bình luận công khai..." ' +
+            'style="width:78%;padding:6px;border:1px solid #ccd0d5;border-radius:4px;">' +
+            '<input type="submit" value="Gửi" ' +
+            'style="padding:6px 12px;background-color:#e4e6eb;border:1px solid #ccd0d5;border-radius:4px;cursor:pointer;">' +
+            "</form>";
+          while (wrapper.firstChild) cell.appendChild(wrapper.firstChild);
+          return cell.querySelector('input[name="comment"]');
+        }
+
+        document.addEventListener("submit", function (e) {
+          const form = e.target;
+          const input = form.querySelector('input[name="comment"]');
+          if (!input) return;
+
+          e.preventDefault();
+          const value = input.value.trim();
+          if (!value) return;
+
+          const postBox = form.closest('table[bgcolor="#ffffff"]');
+
+          const commentLine = document.createElement("p");
+          commentLine.style.margin = "6px 0";
+          commentLine.innerHTML =
+            '<font size="2"><b>Nguyễn Văn A:</b> ' +
+            escapeHTML(value) +
+            "</font>";
+          form.parentElement.insertBefore(commentLine, form);
+
+          if (postBox) {
+            const stats = findStatsNode(postBox);
+            if (stats) stats.textContent = bumpNumber(stats.textContent, 1, +1);
+          }
+
+          input.value = "";
+        });
+
+        document.addEventListener("submit", function (e) {
+          const form = e.target;
+          const textarea = form.querySelector('textarea[name="content"]');
+          if (!textarea) return;
+
+          e.preventDefault();
+          const content = textarea.value.trim();
+          if (!content) {
+            alert("Bạn chưa nhập nội dung bài viết!");
+            return;
+          }
+
+          const privacySelect = form.querySelector('select[name="privacy"]');
+          const privacyText = privacySelect
+            ? privacySelect.options[privacySelect.selectedIndex].text
+            : "🌎 Công khai";
+
+          const container = createBox.parentElement;
+          const br = createBox.nextElementSibling;
+          const firstPost = br ? br.nextElementSibling : createBox.nextSibling;
+
+          const newPost = buildPostElement(content, privacyText);
+          const spacer = document.createElement("br");
+
+          if (firstPost) {
+            container.insertBefore(newPost, firstPost);
+            container.insertBefore(spacer, firstPost);
+          } else {
+            container.appendChild(newPost);
+            container.appendChild(spacer);
+          }
+
+          textarea.value = "";
+          if (form.querySelector('input[type="file"]')) {
+            form.querySelector('input[type="file"]').value = "";
+          }
+
+          newPost.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+
+        function buildPostElement(content, privacyText) {
+          const table = document.createElement("table");
+          table.setAttribute("width", "100%");
+          table.setAttribute("bgcolor", "#ffffff");
+          table.setAttribute("cellpadding", "15");
+          table.setAttribute("cellspacing", "0");
+          table.setAttribute("border", "0");
+          table.style.border = "1px solid #d3d9de";
+          table.style.borderRadius = "8px";
+
+          table.innerHTML =
+            "<tr><td>" +
+            '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>' +
+            '<td width="45" valign="top">' +
+            '<table bgcolor="#1877f2" width="38" height="38" style="border-radius:50%;">' +
+            '<tr><td align="center"><font color="#ffffff"><b>A</b></font></td></tr>' +
+            "</table></td>" +
+            '<td><font size="3"><b>Nguyễn Văn A</b></font><br>' +
+            '<font size="1" color="#65676b">Vừa xong · ' +
+            escapeHTML(privacyText) +
+            "</font></td>" +
+            "</tr></table>" +
+            '<p><font size="3">' +
+            escapeHTML(content) +
+            "</font></p>" +
+            '<hr color="#f0f2f5" size="1">' +
+            '<table width="100%" cellpadding="0" cellspacing="0" border="0"><tr>' +
+            '<td><font size="2" color="#65676b">👍 0 Thích · 💬 0 Bình luận</font></td>' +
+            "</tr><tr><td><br></td></tr><tr><td>" +
+            '<button type="button" style="padding:4px 10px;cursor:pointer;">👍 Thích</button> ' +
+            '<button type="button" style="padding:4px 10px;cursor:pointer;">💬 Bình luận</button> ' +
+            '<button type="button" style="padding:4px 10px;cursor:pointer;">↗ Chia sẻ</button>' +
+            "</td></tr></table>" +
+            "</td></tr>";
+
+          return table;
+        }
+
+        function escapeHTML(str) {
+          const div = document.createElement("div");
+          div.textContent = str;
+          return div.innerHTML;
+        }
+
+        document.addEventListener("click", function (e) {
+          const el = e.target;
+          if (
+            el.tagName === "INPUT" &&
+            el.type === "button" &&
+            el.value &&
+            el.value.indexOf("Kết bạn") !== -1
+          ) {
+            el.value = "✔ Đã gửi lời mời";
+            el.disabled = true;
+            el.style.cursor = "default";
+          }
+        });
+
+        document.addEventListener("submit", function (e) {
+          const form = e.target;
+          const searchInput = form.querySelector('input[name="q"]');
+          if (!searchInput) return;
+
+          e.preventDefault();
+          const keyword = searchInput.value.trim().toLowerCase();
+          const posts = document.querySelectorAll('table[bgcolor="#ffffff"]');
+
+          posts.forEach(function (post) {
+            const hasLikeBtn = Array.from(post.querySelectorAll("button")).some(
+              (b) => b.textContent.trim().indexOf("Thích") !== -1,
+            );
+            if (!hasLikeBtn) return;
+
+            if (!keyword) {
+              post.style.display = "";
+              return;
+            }
+            const match =
+              post.textContent.toLowerCase().indexOf(keyword) !== -1;
+            post.style.display = match ? "" : "none";
+          });
+        });
+
+        document.querySelectorAll("a").forEach(function (a) {
+          if (a.textContent.indexOf("Thông báo") !== -1) {
+            a.title = "Bạn có thông báo mới";
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

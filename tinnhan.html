@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tin nhắn - MiniSocial</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap");
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Be Vietnam Pro", Arial, sans-serif !important;
+        color: #1c1e21;
+        max-width: 700px;
+        margin: 0 auto !important;
+        padding: 28px 20px 60px;
+        line-height: 1.6;
+      }
+
+      h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #1877f2;
+        margin: 0 0 18px;
+      }
+
+      nav {
+        display: block;
+        background: #ffffff;
+        border: 1px solid #d3d9de;
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      nav a {
+        color: #1877f2;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 4px 6px;
+        border-radius: 6px;
+        transition: background 0.15s ease;
+      }
+      nav a:hover {
+        background: #e7f3ff;
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid #d3d9de;
+        margin: 18px 0;
+      }
+
+      body > button {
+        font-family: inherit;
+        border: 1px solid #ccd0d5 !important;
+        border-radius: 6px !important;
+        font-weight: 500;
+        transition: background 0.15s ease;
+      }
+      body > button:hover {
+        background: #e4e6eb !important;
+      }
+
+      [id^="chatTitle"] {
+        font-size: 17px;
+        color: #050505;
+        margin: 0 0 4px;
+      }
+
+      [id^="chatSubtitle"] {
+        color: #65676b;
+        font-size: 14px;
+        margin: 0 0 10px;
+      }
+
+      [id^="messageBox"] {
+        border-radius: 10px !important;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.02);
+      }
+
+      [id^="messageBox"] p {
+        margin: 6px 0;
+      }
+
+      [id^="messageBox"] p b {
+        color: #1877f2;
+      }
+
+      [id^="messageForm"] {
+        display: flex;
+        gap: 8px;
+      }
+
+      [id^="messageInput"] {
+        flex: 1;
+        font-family: inherit;
+        border: 1px solid #ccd0d5;
+        border-radius: 20px;
+        padding: 8px 16px;
+      }
+      [id^="messageInput"]:focus {
+        outline: none;
+        border-color: #1877f2;
+        box-shadow: 0 0 0 3px rgba(24, 119, 242, 0.15);
+      }
+
+      [id^="messageForm"] button {
+        font-family: inherit;
+        border: none;
+        background: #1877f2;
+        color: #ffffff;
+        border-radius: 20px;
+        padding: 8px 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+      [id^="messageForm"] button:hover {
+        background: #166fe0;
+      }
+
+      #chatContainer > div {
+        padding-bottom: 6px;
+      }
+    </style>
+  </head>
+
+  <body bgcolor="#eaf3ff">
+    <h1>💬 Tin nhắn</h1>
+
+    <nav>
+      <a href="index.html">🏠 Trang chủ</a> |
+      <a href="banbe.html">👥 Bạn bè</a> |
+      <a href="tinnhan.html">💬 Tin nhắn</a> |
+      <a href="thongbao.html">🔔 Thông báo</a> |
+      <a href="hoso.html">👤 Hồ sơ</a>
+    </nav>
+
+    <hr />
+
+    <div id="chatContainer">
+      <h3 id="chatTitle">👤 Nguyễn Minh</h3>
+      <p id="chatSubtitle">Minh: Ê, cuối tuần đi chơi không?</p>
+
+      <form id="messageForm">
+        <input type="text" id="messageInput" placeholder="Nhập tin nhắn..." />
+        <button>Gửi</button>
+      </form>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const REPLIES = [
+          "Ừ, để mình xem nhé!",
+          "Ok bạn ơi 👍",
+          "Cảm ơn bạn đã nhắn tin!",
+          "Haha đúng rồi đó!",
+          "Mai gặp nhau nói chuyện tiếp nha 😄",
+          "❤️❤️❤️❤️💕",
+          "nay tuân không đc 10 điểm ah!",
+          "ok , cho tao xin địa chỉ",
+        ];
+        const container = document.getElementById("chatContainer");
+
+        // Nút xóa toàn bộ lịch sử chat (kể cả dữ liệu cũ lộn xộn trước đây)
+        const clearBtn = document.createElement("button");
+        clearBtn.type = "button";
+        clearBtn.textContent = "🗑️ Xóa lịch sử chat";
+        clearBtn.style.cssText =
+          "margin-bottom:12px;padding:6px 14px;cursor:pointer;background:#e4e6eb;border:1px solid #ccd0d5;border-radius:4px;";
+        clearBtn.addEventListener("click", function () {
+          const dongY = confirm(
+            "Xóa toàn bộ lịch sử tin nhắn của tất cả bạn bè? Hành động này không thể hoàn tác.",
+          );
+          if (!dongY) return;
+
+          Object.keys(localStorage).forEach(function (key) {
+            if (key.indexOf("MiniSocial_messages_") === 0) {
+              localStorage.removeItem(key);
+            }
+          });
+
+          location.reload();
+        });
+        container.parentNode.insertBefore(clearBtn, container);
+
+        const template = container.innerHTML;
+        container.innerHTML = "";
+
+        let friends = ["Nguyễn Minh", "Phạm An", "Trần Lan"];
+
+        const lastContact = localStorage.getItem("MiniSocial_lastContact");
+
+        if (lastContact) {
+          friends = friends.filter(function (name) {
+            return name !== lastContact;
+          });
+          friends.unshift(lastContact);
+        }
+
+        friends.forEach(function (friendName, index) {
+          renderChatBlock(friendName, index);
+        });
+
+        function renderChatBlock(friendName, index) {
+          if (index > 0) {
+            container.appendChild(document.createElement("hr"));
+          }
+
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = template;
+          wrapper.style.marginBottom = "15px";
+          container.appendChild(wrapper);
+
+          const firstName = friendName.trim().split(" ").pop();
+
+          const title = wrapper.querySelector("#chatTitle");
+          const subtitle = wrapper.querySelector("#chatSubtitle");
+          const form = wrapper.querySelector("#messageForm");
+          const input = wrapper.querySelector("#messageInput");
+
+          title.id = "chatTitle-" + index;
+          title.textContent = "👤 " + friendName;
+
+          subtitle.id = "chatSubtitle-" + index;
+          subtitle.textContent = firstName + ": Ê, cuối tuần đi chơi không?";
+
+          form.id = "messageForm-" + index;
+          input.id = "messageInput-" + index;
+
+          const messageBox = document.createElement("div");
+          messageBox.id = "messageBox-" + index;
+          messageBox.style.maxHeight = "250px";
+          messageBox.style.overflowY = "auto";
+          messageBox.style.border = "1px solid #ccc";
+          messageBox.style.borderRadius = "6px";
+          messageBox.style.padding = "8px";
+          messageBox.style.marginBottom = "8px";
+          messageBox.style.background = "#ffffff";
+          form.parentNode.insertBefore(messageBox, form);
+
+          const chatKey = "MiniSocial_messages_" + friendName;
+          let messages = JSON.parse(localStorage.getItem(chatKey) || "[]");
+
+          function hienThiTinNhan() {
+            messageBox.innerHTML = "";
+
+            messages.forEach(function (message) {
+              const p = document.createElement("p");
+
+              const isMine = !message.from || message.from === "me";
+              const tenNguoiGui = isMine ? "Nguyễn Văn A" : friendName;
+              const noiDung =
+                message.text !== undefined ? message.text : message;
+
+              if (isMine) {
+                p.style.textAlign = "right";
+              }
+
+              p.innerHTML =
+                "<b>" +
+                escapeHTML(tenNguoiGui) +
+                ":</b> " +
+                escapeHTML(noiDung);
+
+              messageBox.appendChild(p);
+            });
+
+            messageBox.scrollTop = messageBox.scrollHeight;
+          }
+
+          form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const message = input.value.trim();
+
+            if (message === "") {
+              alert("Vui lòng nhập tin nhắn!");
+              input.focus();
+              return;
+            }
+
+            messages.push({ from: "me", text: message });
+
+            localStorage.setItem(chatKey, JSON.stringify(messages));
+
+            input.value = "";
+            hienThiTinNhan();
+            input.focus();
+
+            setTimeout(function () {
+              const reply = REPLIES[Math.floor(Math.random() * REPLIES.length)];
+
+              messages.push({ from: "friend", text: reply });
+
+              localStorage.setItem(chatKey, JSON.stringify(messages));
+
+              hienThiTinNhan();
+            }, 1000);
+          });
+
+          hienThiTinNhan();
+        }
+
+        function escapeHTML(text) {
+          return String(text)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+        }
+      });
+    </script>
+  </body>
+</html>

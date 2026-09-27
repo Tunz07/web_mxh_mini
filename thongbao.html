@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Thông báo - MiniSocial</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap");
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Be Vietnam Pro", Arial, sans-serif !important;
+        color: #1c1e21;
+        max-width: 700px;
+        margin: 0 auto !important;
+        padding: 28px 20px 60px;
+        line-height: 1.6;
+      }
+
+      h1 {
+        font-size: 28px;
+        font-weight: 700;
+        color: #1877f2;
+        margin: 0 0 18px;
+      }
+
+      nav {
+        display: block;
+        background: #ffffff;
+        border: 1px solid #d3d9de;
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-size: 14px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      nav a {
+        color: #1877f2;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 4px 6px;
+        border-radius: 6px;
+        transition: background 0.15s ease;
+      }
+      nav a:hover {
+        background: #e7f3ff;
+      }
+
+      hr {
+        border: none;
+        border-top: 1px solid #d3d9de;
+        margin: 18px 0;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li {
+        background: #ffffff;
+        border: 1px solid #d3d9de;
+        margin-bottom: 8px;
+        font-size: 15px;
+        transition: background 0.15s ease;
+      }
+
+      li button {
+        font-family: inherit;
+        border: 1px solid #ccd0d5;
+        background: #f0f2f5;
+        color: #050505;
+        border-radius: 6px;
+        padding: 4px 12px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+      li button:hover {
+        background: #e4e6eb;
+      }
+
+      button {
+        font-family: inherit;
+        border: 1px solid #1877f2;
+        background: #1877f2;
+        color: #ffffff;
+        border-radius: 6px;
+        padding: 8px 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+      button:hover {
+        background: #166fe0;
+      }
+    </style>
+  </head>
+
+  <body bgcolor="#eaf3ff">
+    <h1>🔔 Thông báo</h1>
+
+    <nav>
+      <a href="index.html">🏠 Trang chủ</a> |
+      <a href="banbe.html">👥 Bạn bè</a> |
+      <a href="tinnhan.html">💬 Tin nhắn</a> |
+      <a href="thongbao.html">🔔 Thông báo</a> |
+      <a href="hoso.html">👤 Hồ sơ</a>
+    </nav>
+
+    <hr />
+
+    <ul id="notificationList">
+      <li>❤️ Minh đã thích bài viết của bạn.</li>
+      <li>👥 Lan đã gửi lời mời kết bạn.</li>
+      <li>💬 Nam đã bình luận bài viết của bạn.</li>
+    </ul>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const list = document.getElementById("notificationList");
+        const items = list.querySelectorAll("li");
+
+        // Danh sách các thông báo đã đọc (lưu theo nội dung, dùng chung cho mọi phiên)
+        let readNotifications = JSON.parse(
+          localStorage.getItem("MiniSocial_readNotifications") || "[]",
+        );
+
+        // Nút "Đánh dấu tất cả đã đọc"
+        const markAllBtn = document.createElement("button");
+        markAllBtn.textContent = "✔️ Đánh dấu tất cả đã đọc";
+        markAllBtn.style.marginBottom = "10px";
+        list.parentNode.insertBefore(markAllBtn, list);
+
+        markAllBtn.addEventListener("click", function () {
+          items.forEach(function (item) {
+            capNhatDaDoc(item, true);
+          });
+        });
+
+        items.forEach(function (item) {
+          // Lưu lại nội dung gốc, tránh bị lẫn với chữ trên nút thêm sau này
+          item.dataset.text = item.textContent.trim();
+          const noiDung = item.dataset.text;
+
+          // Tô đậm nếu chưa đọc, bình thường nếu đã đọc
+          capNhatDaDoc(item, readNotifications.includes(noiDung));
+
+          // Bấm vào thông báo -> đánh dấu đã đọc
+          item.addEventListener("click", function () {
+            capNhatDaDoc(item, true);
+          });
+
+          // Nếu là lời mời kết bạn -> thêm nút Chấp nhận / Từ chối
+          if (noiDung.includes("lời mời kết bạn")) {
+            const acceptBtn = document.createElement("button");
+            acceptBtn.textContent = "✅ Chấp nhận";
+            acceptBtn.style.marginLeft = "10px";
+
+            const declineBtn = document.createElement("button");
+            declineBtn.textContent = "❌ Từ chối";
+            declineBtn.style.marginLeft = "5px";
+
+            acceptBtn.addEventListener("click", function (e) {
+              e.stopPropagation();
+              capNhatDaDoc(item, true);
+              acceptBtn.disabled = true;
+              declineBtn.disabled = true;
+              acceptBtn.textContent = "✔️ Đã là bạn bè";
+              declineBtn.remove();
+            });
+
+            declineBtn.addEventListener("click", function (e) {
+              e.stopPropagation();
+              item.remove();
+            });
+
+            item.appendChild(acceptBtn);
+            item.appendChild(declineBtn);
+          }
+        });
+
+        function capNhatDaDoc(item, daDoc) {
+          const noiDung = item.dataset.text;
+
+          if (daDoc) {
+            item.style.fontWeight = "normal";
+            item.style.backgroundColor = "transparent";
+
+            if (!readNotifications.includes(noiDung)) {
+              readNotifications.push(noiDung);
+            }
+          } else {
+            item.style.fontWeight = "bold";
+            item.style.backgroundColor = "#eaf1ff";
+          }
+
+          item.style.cursor = "pointer";
+          item.style.padding = "6px";
+          item.style.borderRadius = "4px";
+
+          localStorage.setItem(
+            "MiniSocial_readNotifications",
+            JSON.stringify(readNotifications),
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
